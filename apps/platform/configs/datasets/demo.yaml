@@ -1,0 +1,28 @@
+path: C:/Users/ASUS/ODPlatform/data/processed/demo
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: head
+  1: 反光衣
+nc: 2
+odp_meta:
+  schema_version: 1
+  dataset_name: demo
+  source_format: pascal_voc
+  task: detect
+  tool_version: odp-transform/0.4
+  created_at: '2026-10-22T11:20:39'
+  contract_fingerprint: 4387ff1795800187ec25c4ecea05458201c537df70c4f45cc72315fbcf421a15
+  manifest_path: runs/data_pipeline/20261022-112039/manifest.json
+  split:
+    strategy: random
+    seed: 42
+    rates:
+      train: 0.8
+      val: 0.1
+      test: 0.1
+    counts:
+      train: 50
+      val: 6
+      test: 7
