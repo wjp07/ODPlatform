@@ -10,6 +10,22 @@ from od_platform.common import paths
 from od_platform.data_pipeline.orchestrator import DatasetPipeline
 
 
+@pytest.fixture(scope="session", autouse=True)
+def _isolate_lineage(tmp_path_factory):
+    """测试不得往仓库 runs/lineage 写章: 章是全局产物, 单元测试必须隔离。
+
+    D6 起 D3/D4 的流程会盖章; D4 的篡改夹具沿用了 demo 的 manifest,
+    数据指纹与真实 demo 相同, 不隔离就会覆盖 demo 的真实验证章。
+    这里把 stamp.LINEAGE_DIR 指到临时目录, 测试结束自动还原。
+    """
+    from od_platform.common import stamp
+
+    original = stamp.LINEAGE_DIR
+    stamp.LINEAGE_DIR = tmp_path_factory.mktemp("lineage")
+    yield
+    stamp.LINEAGE_DIR = original
+
+
 def _ensure_demo_yaml() -> Path:
     """确保 D3 已产出 demo;没跑过就现场跑一遍。"""
     yaml_path = paths.dataset_yaml_path("demo")
